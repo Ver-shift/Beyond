@@ -1,9 +1,49 @@
 package com.pz.beyond.data;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.pz.beyond.safeZoneRule.ISafeZoneRuleListener;
 import net.minecraft.util.StringRepresentable;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PlayerStateData {
+
+private PlayerState playerState = PlayerState.INSIDE_SAFETY_ZONE;
+private List<ISafeZoneRuleListener> listeners = new ArrayList<>();
+
+    public PlayerStateData() {
+    }
+
+    public PlayerStateData(PlayerState playerState) {
+        this.playerState = playerState;
+    }
+
+    public static final Codec<PlayerStateData> CODEC = RecordCodecBuilder.create(i->i.group(
+            PlayerState.CODEC.fieldOf("playerState").forGetter(data->data.playerState))
+            .apply(i,PlayerStateData::new)
+    );
+
+
+    public PlayerState getPlayerState() {
+        return this.playerState;
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
+
+    public void addStateListener(ISafeZoneRuleListener... listeners) {
+        this.listeners.addAll(Arrays.asList(listeners));
+    }
+
+    public List<ISafeZoneRuleListener> getListeners() {
+        return this.listeners;
+    }
+
     /**
      * 用来存储玩家状态
      * <ul>
@@ -21,10 +61,10 @@ public class PlayerStateData {
             this.name = name;
         }
         public static final Codec<PlayerState> CODEC =
-                StringRepresentable.fromEnum(PlayerState::values);
+                StringRepresentable.fromValues(PlayerState::values);
         @Override
         public String getSerializedName() {
-            return name;
+            return this.name;
         }
     }
 

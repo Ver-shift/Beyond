@@ -13,9 +13,9 @@ public class ModAttachments {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
             DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Beyond.MODID);
 
-    public static final Supplier<AttachmentType<PlayerStateData.PlayerState>> PLAYER_STATE = ATTACHMENT_TYPES.register("player_state",()->
-            AttachmentType.<PlayerStateData.PlayerState>builder(()-> PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE)
-                    .serialize(PlayerStateData.PlayerState.CODEC)
+    public static final Supplier<AttachmentType<PlayerStateData>> PLAYER_STATE = ATTACHMENT_TYPES.register("player_state",()->
+            AttachmentType.<PlayerStateData>builder((Supplier<PlayerStateData>)PlayerStateData::new)
+                    .serialize(PlayerStateData.CODEC)
                     .copyOnDeath()
                     .build());
 }

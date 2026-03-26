@@ -22,7 +22,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 @EventBusSubscriber
-public class SafeZoneCreateHandler {
+public class SafeZoneHandler {
 
     /**
      * 这个事件控制 安全区的初始数据
@@ -40,37 +40,13 @@ public class SafeZoneCreateHandler {
     }
     @SubscribeEvent
     public static void onPlayerDamage(LivingDamageEvent.Pre event) {
-        if (event.getEntity() instanceof Player player) {
-            if(player.getData(ModAttachments.PLAYER_STATE) == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) {
-                event.setNewDamage(0);
-            }
-        }
+//        if (event.getEntity() instanceof Player player) {
+//            if(player.getData(ModAttachments.PLAYER_STATE) == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) {
+//                event.setNewDamage(0);
+//            }
+//        }
     }
 
-    @SubscribeEvent
-    public static void  onPlayerTickEvent(PlayerTickEvent.Post event) {
-        Player player = event.getEntity();
-        PlayerStateData.PlayerState data = player.getData(ModAttachments.PLAYER_STATE);
-        FoodData foodData = player.getFoodData();
-        if (player.level() instanceof ServerLevel serverLevel) {
-            SafeZoneData safeZone = serverLevel.getDataStorage().computeIfAbsent(new SavedData.Factory<>(SafeZoneData::create, SafeZoneData::load), "SafeZone");
-
-            if (!safeZone.isWithinSafeZone(player.getX(), player.getZ()) && data == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) {
-                player.setData(ModAttachments.PLAYER_STATE, PlayerStateData.PlayerState.IN_GAME);
-                NeoForge.EVENT_BUS.post(new PlayerStateChangeEvent(player,PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE,PlayerStateData.PlayerState.IN_GAME));
-
-            }else if (safeZone.isWithinSafeZone(player.getX(), player.getZ()) && data == PlayerStateData.PlayerState.IN_GAME){
-                player.setData(ModAttachments.PLAYER_STATE, PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE);
-                NeoForge.EVENT_BUS.post(new PlayerStateChangeEvent(player,PlayerStateData.PlayerState.IN_GAME,PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE));
-
-            }
-        }
-
-
-        if (data == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) {
-            if (player.tickCount % 20 == 0) foodData.eat(2,2);
-        }
-    }
 
 
 
