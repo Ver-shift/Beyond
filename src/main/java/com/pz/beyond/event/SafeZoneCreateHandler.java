@@ -2,6 +2,7 @@ package com.pz.beyond.event;
 
 import com.pz.beyond.data.PlayerStateData;
 import com.pz.beyond.data.SafeZoneData;
+import com.pz.beyond.event.custom.PlayerStateChangeEvent;
 import com.pz.beyond.registry.ModAttachments;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
@@ -55,9 +57,12 @@ public class SafeZoneCreateHandler {
 
             if (!safeZone.isWithinSafeZone(player.getX(), player.getZ()) && data == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) {
                 player.setData(ModAttachments.PLAYER_STATE, PlayerStateData.PlayerState.IN_GAME);
+                NeoForge.EVENT_BUS.post(new PlayerStateChangeEvent(player,PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE,PlayerStateData.PlayerState.IN_GAME));
 
             }else if (safeZone.isWithinSafeZone(player.getX(), player.getZ()) && data == PlayerStateData.PlayerState.IN_GAME){
                 player.setData(ModAttachments.PLAYER_STATE, PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE);
+                NeoForge.EVENT_BUS.post(new PlayerStateChangeEvent(player,PlayerStateData.PlayerState.IN_GAME,PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE));
+
             }
         }
 
