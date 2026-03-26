@@ -77,4 +77,13 @@ public class PlayerStateHandle {
 
         entity.setData(ModAttachments.PLAYER_STATE,data);
     }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerRespawnEvent e) {
+        Player entity = e.getEntity();
+        PlayerStateData data = entity.getData(ModAttachments.PLAYER_STATE);
+        data.addStateListener(new NoEat(),new Invincible(),new AutoRegeneration(),new SafeZoneTransition());
+
+        entity.setData(ModAttachments.PLAYER_STATE,data);
+    }
 }

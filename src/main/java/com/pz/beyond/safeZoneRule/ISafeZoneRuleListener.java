@@ -9,7 +9,7 @@ public interface ISafeZoneRuleListener {
 
     default void toSafeZone(SafeZoneContext context){}
 
-    default void hurt(SafeZoneContext context , LivingDamageEvent.Pre event){}
+    default void hurt(LivingDamageEvent.Pre event){}
 
     default void onSafeZoneTick(SafeZoneContext context){}
 

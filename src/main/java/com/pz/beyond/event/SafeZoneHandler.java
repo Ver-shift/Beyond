@@ -4,8 +4,10 @@ import com.pz.beyond.data.PlayerStateData;
 import com.pz.beyond.data.SafeZoneData;
 import com.pz.beyond.event.custom.PlayerStateChangeEvent;
 import com.pz.beyond.registry.ModAttachments;
+import com.pz.beyond.safeZoneRule.ISafeZoneRuleListener;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.level.Level;
@@ -20,6 +22,8 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+
+import java.util.List;
 
 @EventBusSubscriber
 public class SafeZoneHandler {
@@ -38,13 +42,22 @@ public class SafeZoneHandler {
             safeZone.setFirst(true);
         }
     }
+
+
     @SubscribeEvent
     public static void onPlayerDamage(LivingDamageEvent.Pre event) {
-//        if (event.getEntity() instanceof Player player) {
-//            if(player.getData(ModAttachments.PLAYER_STATE) == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) {
-//                event.setNewDamage(0);
-//            }
-//        }
+        if (event.getEntity() instanceof ServerPlayer serverPlayer){
+            PlayerStateData data = serverPlayer.getData(ModAttachments.PLAYER_STATE);
+            List<ISafeZoneRuleListener> listeners = data.getListeners();
+
+
+            for (ISafeZoneRuleListener listener : listeners){
+                if (data.getPlayerState() == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE){
+                   listener.hurt(event);
+                }
+            }
+
+        }
     }
 
 

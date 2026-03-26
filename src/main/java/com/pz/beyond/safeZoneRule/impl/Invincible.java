@@ -6,7 +6,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 public class Invincible implements ISafeZoneRuleListener {
     @Override
-    public void hurt(SafeZoneContext context, LivingDamageEvent.Pre event) {
+    public void hurt(LivingDamageEvent.Pre event) {
         event.setNewDamage(0);
     }
 }

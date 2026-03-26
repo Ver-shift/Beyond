@@ -16,7 +16,6 @@ public class SafeZoneTransition implements ISafeZoneRuleListener {
         data.setPlayerState(PlayerStateData.PlayerState.IN_GAME);
         NeoForge.EVENT_BUS.post(new PlayerStateChangeEvent(serverPlayer, PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE,PlayerStateData.PlayerState.IN_GAME));
         serverPlayer.setData(ModAttachments.PLAYER_STATE,data);
-        System.out.println("离开");
 
     }
 
@@ -27,6 +26,5 @@ public class SafeZoneTransition implements ISafeZoneRuleListener {
         data.setPlayerState(PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE);
         NeoForge.EVENT_BUS.post(new PlayerStateChangeEvent(serverPlayer,PlayerStateData.PlayerState.IN_GAME,PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE));
         serverPlayer.setData(ModAttachments.PLAYER_STATE,data);
-        System.out.println("进入");
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class PlayerStateData {
 
 private PlayerState playerState = PlayerState.INSIDE_SAFETY_ZONE;
-private List<ISafeZoneRuleListener> listeners = new ArrayList<>();
+private transient List<ISafeZoneRuleListener> listeners = new ArrayList<>();
 
     public PlayerStateData() {
     }
