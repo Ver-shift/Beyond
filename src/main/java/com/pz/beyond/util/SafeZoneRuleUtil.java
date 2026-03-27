@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SafeZoneRuleUtil {
-    private static List<ISafeZoneRuleListener> RULES = new ArrayList<>();
+    private static final List<ISafeZoneRuleListener> RULES = new ArrayList<>();
     public static void initAutoRules() {
         // 获取我们自定义注解的全限定名，用于后续的匹配比较
         String annotationName = SafeZoneRule.class.getName();

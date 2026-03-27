@@ -5,8 +5,6 @@ import com.pz.beyond.data.SafeZoneData;
 import com.pz.beyond.event.custom.PlayerStateChangeEvent;
 import com.pz.beyond.registry.ModAttachments;
 import com.pz.beyond.safeZoneRule.ISafeZoneRuleListener;
-import com.pz.beyond.safeZoneRule.impl.AutoRegeneration;
-import com.pz.beyond.safeZoneRule.impl.NoEat;
 import com.pz.beyond.util.SafeZoneRuleUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +21,7 @@ import java.util.List;
 @EventBusSubscriber
 public class PlayerStateHandle {
 
-    private static final List<ISafeZoneRuleListener> TICK_RULES = SafeZoneRuleUtil.getRULES();
+    private static final List<ISafeZoneRuleListener> RULES = SafeZoneRuleUtil.getRULES();
 
     @SubscribeEvent
     public static void onPlayerTickEvent(PlayerTickEvent.Post event) {
@@ -38,7 +36,7 @@ public class PlayerStateHandle {
             /**
              * 对玩家执行安全区规则
              */
-            for (ISafeZoneRuleListener rule : TICK_RULES) {
+            for (ISafeZoneRuleListener rule : RULES) {
                 if (data.getPlayerState() == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) {
                     rule.onSafeZoneTick(safeZoneContext);
                 } else if (data.getPlayerState() == PlayerStateData.PlayerState.IN_GAME) {
@@ -70,14 +68,12 @@ public class PlayerStateHandle {
     /**
      * 安全区内免伤
      */
-    @EventBusSubscriber
-    public static class Invincible {
-        @SubscribeEvent
-        public static void onLivingDamageEvent(LivingDamageEvent.Pre event) {
-            if (event.getEntity() instanceof ServerPlayer serverPlayer){
-                PlayerStateData data = serverPlayer.getData(ModAttachments.PLAYER_STATE);
-                if (data.getPlayerState() == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE) event.setNewDamage(0);
-            }
+    @SubscribeEvent
+    public static void onLivingDamageEvent(LivingDamageEvent.Pre event) {
+        for (ISafeZoneRuleListener rule : RULES) {
+            rule.invincible(event);
         }
+
     }
+
 }

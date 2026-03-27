@@ -7,6 +7,7 @@ import com.pz.beyond.network.SafeZonePayload;
 import com.pz.beyond.registry.ModAttachments;
 import com.pz.beyond.safeZoneRule.ISafeZoneRuleListener;
 import com.pz.beyond.util.SafeZonePayloadUtil;
+import com.pz.beyond.util.SafeZoneRuleUtil;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +22,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
@@ -33,6 +35,7 @@ import java.util.List;
 @EventBusSubscriber
 public class SafeZoneHandler {
 
+    private static final List<ISafeZoneRuleListener> RULES = SafeZoneRuleUtil.getRULES();
     /**
      * 这个事件控制 安全区的初始数据
      * @param event
@@ -50,8 +53,10 @@ public class SafeZoneHandler {
 
 
 
-
-
+    /**
+     * 处理玩家登录事件，将安全区数据同步给新加入的玩家
+     * @param event
+     */
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 
@@ -62,5 +67,10 @@ public class SafeZoneHandler {
         }
     }
 
-
+    @SubscribeEvent
+    public static void onMobSpawnEvent(MobSpawnEvent.PositionCheck event) {
+        for (ISafeZoneRuleListener rule : RULES) {
+            rule.onMobSpawn(event);
+        }
+    }
 }
