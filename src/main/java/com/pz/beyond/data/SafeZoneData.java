@@ -1,9 +1,11 @@
 package com.pz.beyond.data;
 
+import com.pz.beyond.util.SafeZonePayloadUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
 /**
@@ -55,8 +57,9 @@ public class SafeZoneData extends SavedData {
     }
 
 
-    public void updateCenter(BlockPos pos) {
+    public void updateCenter(BlockPos pos, ServerLevel serverLevel, SafeZoneData data) {
         updateCenter(pos.getX(),pos.getZ());
+        SafeZonePayloadUtil.SafeZoneToAll(serverLevel,data);
     }
 
     public void updateCenter(int x, int z) {
@@ -65,8 +68,13 @@ public class SafeZoneData extends SavedData {
         this.setDirty();
     }
 
-    public void addRadius(int amount) {
-        this.radius = Math.max(0, this.radius += amount);
+    public void addRadius(int r, ServerLevel serverLevel, SafeZoneData data) {
+         addRadius(r);
+        SafeZonePayloadUtil.SafeZoneToAll(serverLevel,data);
+    }
+
+    private void addRadius(int radius) {
+        this.radius = Math.max(0, this.radius += radius);
         this.setDirty();
     }
 
