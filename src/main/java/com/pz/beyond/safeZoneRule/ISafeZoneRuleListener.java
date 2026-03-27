@@ -5,6 +5,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 
+/**
+ * 安全区规则监听器接口
+ * <P>
+ * 用于定义安全区内的各种规则处理逻辑
+ */
 public interface ISafeZoneRuleListener {
 
     /**

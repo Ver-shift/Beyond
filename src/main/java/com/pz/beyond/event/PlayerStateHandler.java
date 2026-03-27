@@ -19,7 +19,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import java.util.List;
 
 @EventBusSubscriber
-public class PlayerStateHandle {
+public class PlayerStateHandler {
 
     private static final List<ISafeZoneRuleListener> RULES = SafeZoneRuleUtil.getRULES();
 

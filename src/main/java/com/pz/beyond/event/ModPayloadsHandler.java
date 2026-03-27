@@ -9,7 +9,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber
-public class ModPayloads {
+public class ModPayloadsHandler {
 
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
