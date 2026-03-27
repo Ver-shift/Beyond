@@ -2,6 +2,7 @@ package com.pz.beyond;
 
 import com.mojang.logging.LogUtils;
 import com.pz.beyond.registry.ModAttachments;
+import com.pz.beyond.util.SafeZoneRuleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -60,8 +61,7 @@ public class Beyond
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-
-
+        SafeZoneRuleUtil.initAutoRules();
     }
 
     /**

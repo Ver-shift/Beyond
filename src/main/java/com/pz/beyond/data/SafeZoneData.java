@@ -57,9 +57,9 @@ public class SafeZoneData extends SavedData {
     }
 
 
-    public void updateCenter(BlockPos pos, ServerLevel serverLevel, SafeZoneData data) {
+    public void updateCenter(BlockPos pos, ServerLevel serverLevel) {
         updateCenter(pos.getX(),pos.getZ());
-        SafeZonePayloadUtil.SafeZoneToAll(serverLevel,data);
+        SafeZonePayloadUtil.SafeZoneToAll(serverLevel,this);
     }
 
     public void updateCenter(int x, int z) {
@@ -68,9 +68,9 @@ public class SafeZoneData extends SavedData {
         this.setDirty();
     }
 
-    public void addRadius(int r, ServerLevel serverLevel, SafeZoneData data) {
+    public void addRadius(int r, ServerLevel serverLevel) {
          addRadius(r);
-        SafeZonePayloadUtil.SafeZoneToAll(serverLevel,data);
+        SafeZonePayloadUtil.SafeZoneToAll(serverLevel,this);
     }
 
     private void addRadius(int radius) {

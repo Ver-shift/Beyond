@@ -42,32 +42,21 @@ public class SafeZoneHandler {
         ServerLevel overworld = event.getServer().getLevel(Level.OVERWORLD);
         SafeZoneData safeZone = overworld.getDataStorage().computeIfAbsent(new SavedData.Factory<>(SafeZoneData::create, SafeZoneData::load), "SafeZone");
         if (!safeZone.isFirst()){
-            safeZone.updateCenter(overworld.getLevel().getSharedSpawnPos(),event.getServer().overworld(),safeZone);
-            safeZone.addRadius(15,event.getServer().overworld(),safeZone);
+            safeZone.updateCenter(overworld.getLevel().getSharedSpawnPos(),event.getServer().overworld());
+            safeZone.addRadius(15,event.getServer().overworld());
             safeZone.setFirst(true);
         }
     }
 
 
-    @SubscribeEvent
-    public static void onPlayerDamage(LivingDamageEvent.Pre event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer){
-            PlayerStateData data = serverPlayer.getData(ModAttachments.PLAYER_STATE);
-            List<ISafeZoneRuleListener> listeners = data.getListeners();
 
 
-            for (ISafeZoneRuleListener listener : listeners){
-                if (data.getPlayerState() == PlayerStateData.PlayerState.INSIDE_SAFETY_ZONE){
-                   listener.hurt(event);
-                }
-            }
 
-        }
-    }
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-            SafeZoneData data = serverPlayer.server.getLevel(Level.OVERWORLD).getDataStorage()
+            SafeZoneData data = serverPlayer.getServer().getLevel(Level.OVERWORLD).getDataStorage()
                     .computeIfAbsent(new SavedData.Factory<>(SafeZoneData::create, SafeZoneData::load), "SafeZone");
             SafeZonePayloadUtil.safeZoneToPlayer(serverPlayer,data);
         }
