@@ -2,6 +2,7 @@ package com.pz.beyond.safeZoneRule;
 
 import com.pz.beyond.data.SafeZoneData;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 
@@ -35,6 +36,12 @@ public interface ISafeZoneRuleListener {
      * @param event
      */
     default void onMobSpawn(MobSpawnEvent.PositionCheck event) {}
+
+    /**
+     * 生物尝试锁定一个攻击目标处理
+     * @param event
+     */
+    default void onLivingChangeTarget(LivingChangeTargetEvent event) {}
 
     record SafeZoneContext(ServerPlayer player){}
 

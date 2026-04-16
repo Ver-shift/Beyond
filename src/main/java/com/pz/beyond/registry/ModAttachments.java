@@ -2,6 +2,8 @@ package com.pz.beyond.registry;
 
 import com.pz.beyond.Beyond;
 import com.pz.beyond.data.PlayerStateData;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;

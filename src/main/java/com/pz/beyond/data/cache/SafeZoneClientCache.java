@@ -1,4 +1,4 @@
-package com.pz.beyond.data;
+package com.pz.beyond.data.cache;
 
 /**
  * 客户端的缓存数据

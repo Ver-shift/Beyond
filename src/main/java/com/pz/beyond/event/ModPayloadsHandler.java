@@ -1,6 +1,6 @@
 package com.pz.beyond.event;
 
-import com.pz.beyond.data.SafeZoneClientCache;
+import com.pz.beyond.data.cache.SafeZoneClientCache;
 import com.pz.beyond.network.SafeZonePayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
